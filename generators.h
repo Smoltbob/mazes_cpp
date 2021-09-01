@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <random>
 #include "grid.h"
 #include "cell.h"
 
@@ -8,7 +9,7 @@ class BinaryTree
 {
 	public:
 		BinaryTree(Grid*);
-	
+
 };
 
 BinaryTree::BinaryTree(Grid* g)
@@ -23,10 +24,14 @@ BinaryTree::BinaryTree(Grid* g)
 			{
 				neighbors.push_back(cell->north);
 			}
+			if (cell->east != nullptr)
+			{
+				neighbors.push_back(cell->east);
+			}
 			if (neighbors.size() > 0)
 			{
-				int choice = 0;
-				cell->link(neighbors[0]);
+				int choice = std::rand() % neighbors.size();
+				cell->link(neighbors[choice]);
 			}
 		}
 	}
