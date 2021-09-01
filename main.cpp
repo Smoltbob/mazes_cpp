@@ -10,11 +10,13 @@
 // Setup bazel
 int main()
 {
-	Grid myGrid(10, 10);
-	//myGrid.configureCells();
+	Grid myGrid(5, 5);
+	myGrid.configureCells();
 	std::cout << myGrid.cols << "," << myGrid.rows << std::endl;
 	//std::cout << myGrid << std::endl;
-	BinaryTree genBin(myGrid);
+	BinaryTree genBin(&myGrid);
+	//myGrid.grid[1][1].link(&myGrid.grid[1][2]);
+	std::cout << "done" << std::endl;
 	std::cout << myGrid << std::endl;
 }
 
