@@ -3,6 +3,8 @@ cc_binary(
     srcs = ["main.cpp",
 	    "cell.h",
 	    "grid.h",
+	    "distances.h",
+	    "distance_grid.h",
 	    "generators.h"],
     deps = [
 		"@opencv//:core",

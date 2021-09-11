@@ -1,6 +1,8 @@
 #include <iostream>
 #include "grid.h"
+#include "distance_grid.h"
 #include "generators.h"
+#include "distances.h"
 
 
 // TODO
@@ -12,14 +14,12 @@
 // std::make_unique ?
 int main()
 {
-	Grid myGrid(4, 4);
+	DistanceGrid myGrid(4, 4);
 	myGrid.configureCells();
-	std::cout << myGrid.cols << "," << myGrid.rows << std::endl;
-	//std::cout << myGrid << std::endl;
 	BinaryTree genBin(&myGrid);
-	myGrid.to_png();
-	//myGrid.grid[1][1].link(&myGrid.grid[1][2]);
-	std::cout << "done" << std::endl;
+	Distances dists(myGrid.grid[0][0].getDistances());
+	myGrid.setDistances(dists);
 	std::cout << myGrid << std::endl;
+	myGrid.to_png();
 }
 
