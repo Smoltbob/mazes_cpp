@@ -9,10 +9,10 @@ class Cell
 	public:
 		int row;
 		int col;
-		Cell* north;
-		Cell* south;
-		Cell* east;
-		Cell* west;
+		Cell* north{nullptr};
+		Cell* south{nullptr};
+		Cell* east{nullptr};
+		Cell* west{nullptr};
 		//std::unordered_map<Cell*, bool> links;
 		std::unordered_set<Cell*> links;
 
