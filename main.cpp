@@ -10,7 +10,7 @@
 // Setup bazel
 int main()
 {
-	Grid myGrid(5, 5);
+	Grid myGrid(20, 20);
 	myGrid.configureCells();
 	std::cout << myGrid.cols << "," << myGrid.rows << std::endl;
 	//std::cout << myGrid << std::endl;
