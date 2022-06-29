@@ -7,3 +7,11 @@ cc_test(
   deps = ["//:main",
 		  "@com_google_googletest//:gtest_main"],
 )
+
+cc_test(
+  name = "test_grid",
+  size = "small",
+  srcs = ["test_grid.cpp"],
+  deps = ["//:main",
+		  "@com_google_googletest//:gtest_main"],
+)
