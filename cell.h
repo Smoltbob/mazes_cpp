@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_set>
-#include <set>
+#include "distances.h"
 
 
 class Cell
@@ -21,6 +21,7 @@ class Cell
 		void unlink(Cell*, bool);
 		std::unordered_set<Cell*> getLinks();
 		bool isLinked(Cell*);
+		Distances getDistances();
 
 };
 
@@ -62,3 +63,34 @@ bool Cell::isLinked(Cell* cell)
 		return true;
 	}
 }
+
+Distances Cell::getDistances()
+{
+	Distances dists(this);
+	std::unordered_set<Cell*> frontier;
+	frontier.insert(this);
+
+	while (frontier.size() > 0)
+	{
+		//std::cout << frontier.size() << std::endl;
+		std::unordered_set<Cell*> new_frontier;
+		for (auto const& cell: frontier)
+		{
+			for (auto const& linked: cell->getLinks())
+			{
+				if (dists.isExplored(linked) == false)
+				{
+					dists[linked] = dists[cell] + 1;
+					new_frontier.insert(linked);
+				}
+			}
+		}
+		frontier = new_frontier;
+	}
+
+	return dists;
+}
+
+
+
+
