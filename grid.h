@@ -47,11 +47,11 @@ void Grid::configureCells()
 			}
 			if (j > 0)
 			{
-				grid[i][j].east = &grid[i][j - 1];
+				grid[i][j].west = &grid[i][j - 1];
 			}
 			if (j < cols - 1)
 			{
-				grid[i][j].west = &grid[i][j + 1];
+				grid[i][j].east = &grid[i][j + 1];
 			}
 		}
 	}
