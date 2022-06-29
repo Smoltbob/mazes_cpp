@@ -20,7 +20,7 @@ class Grid
 		void configureCells();
 		friend std::ostream& operator<<(std::ostream& os, const Cell& c); // TODO what is friend?
 		void to_png(int);
-
+		virtual std::string contentsOf(Cell*);
 };
 
 Grid::Grid(int r, int c): rows{r}, cols{c}
@@ -63,8 +63,13 @@ void Grid::configureCells()
 	}
 }
 
+std::string Grid::contentsOf(Cell* c)
+{
+	return " ";
+}
+
 // TODO cleaner characters (page 46)
-std::ostream& operator<<(std::ostream& os, const Grid& g)
+std::ostream& operator<<(std::ostream& os, Grid& g)
 {
 	// Top line
 	os << "+";
@@ -79,9 +84,12 @@ std::ostream& operator<<(std::ostream& os, const Grid& g)
 		std::string top = "|";
 		std::string bottom = "+";
 
-		for (auto cell: g.grid[i])
+		for (auto j = 0; j < g.cols; j++)
 		{
-			std::string body = "   ";
+			Cell cell = g.grid[i][j];
+			Cell* pcell = &(g.grid[i][j]);
+			//std::cout << pcell << std::endl;
+			std::string body = " " + g.contentsOf(pcell) + " ";
 			std::string east_boundary = (cell.isLinked(cell.east) ? " " : "|");
 			top += body + east_boundary;
 
@@ -102,7 +110,7 @@ void Grid::to_png(int cell_size = 10)
 	cv::Scalar background(255, 255, 255);
 	cv::Scalar wall(0, 0, 0);
 
-	cv::Mat image = cv::Mat::zeros(img_height, img_width, CV_8UC3);
+	cv::Mat image = cv::Mat(img_height + 1, img_width + 1, CV_8UC3, background);
 
 	for (auto i = 0; i < rows; i++)
 	{
@@ -118,14 +126,27 @@ void Grid::to_png(int cell_size = 10)
 			{
 				auto pt1 = cv::Point(x1, y1);
 				auto pt2 = cv::Point(x2, y1);
-				cv::line(image, pt1, pt2, background);
+				cv::line(image, pt1, pt2, wall);
 			}
 			if (cell.west == nullptr)
 			{
 				auto pt1 = cv::Point(x1, y1);
 				auto pt2 = cv::Point(x1, y2);
-				cv::line(image, pt1, pt2, background);
+				cv::line(image, pt1, pt2, wall);
 			}
+			if (!cell.isLinked(cell.east))
+			{
+				auto pt1 = cv::Point(x2, y1);
+				auto pt2 = cv::Point(x2, y2);
+				cv::line(image, pt1, pt2, wall);
+			}
+			if (!cell.isLinked(cell.south))
+			{
+				auto pt1 = cv::Point(x1, y2);
+				auto pt2 = cv::Point(x2, y2);
+				cv::line(image, pt1, pt2, wall);
+			}
+
 		}
 	}
 	std::cout << cv::imwrite("maze.png", image) << std::endl;
