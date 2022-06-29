@@ -1,5 +1,6 @@
 #include <iostream>
-#include "grid.cpp"
+#include "grid.h"
+#include "generators.h"
 
 
 // TODO
@@ -10,7 +11,10 @@
 int main()
 {
 	Grid myGrid(10, 10);
+	//myGrid.configureCells();
 	std::cout << myGrid.cols << "," << myGrid.rows << std::endl;
+	//std::cout << myGrid << std::endl;
+	BinaryTree genBin(myGrid);
 	std::cout << myGrid << std::endl;
 }
 
